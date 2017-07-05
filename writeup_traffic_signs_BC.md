@@ -36,7 +36,7 @@ The goals / steps of this project are the following:
 
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/bertcuda/carnd-project2/blob/master/Traffic_Sign_Classifier_Restart_09a.ipynb)
 
 ###Data Set Summary & Exploration
 
@@ -67,13 +67,13 @@ As a first step, I decided to convert the images to grayscale to improve accurac
 
 Here is an example set of traffic sign images after grayscaling.
 
-![After grayscaling][./data_visualization.png]
+![After grayscaling][./after_grayscaling.png]
 
 After grayscaling, I normalized the images for brightness and contrast using cv2.equalizeHist() to better distinguish image features. This normalizes the pixel histogram such that the sum of all histogram bins is 255.
 
 Here is an example set of traffic sign images after brightness and contrast.
 
-![After grayscaling][./afterbrightandcontrast.png]
+![After grayscaling][./after_brightandcontrast.png]
 
 As a last step, I normalized the image data to ensure that data points are approximately of the same scale. Otherwise, the numerous multiplications by the weight values would cause data points to diverge excessively. This is not strictly necessary for image data (which ranges from 0 to 255), but is more of a fine-tuning for a small improvement.
 
@@ -126,11 +126,11 @@ There was a difference of several percent, with the training and validation resu
 Finally, I added another preprocessing step for normalizing the brightness and contrast of the input images to better highlight characteristic features in the images.
 
 My final model results were:
-* training set accuracy of TODOXXXXX%
-* validation set accuracy of 94.6%
-* test set accuracy of 92.5%
+* training set accuracy of 98.2%%
+* validation set accuracy of 95.5%
+* test set accuracy of 91.5%
 
-In addition to a satisfactory overall accuracy level, the probabilities associated with the classified matches are near 100% for the correctly-classified traffic signs.
+In addition to a satisfactory overall accuracy level, the probabilities associated with the classified matches are near 100% for 4 correctly-classified traffic signs out of 5 examples from the Web.
 
 ###Test a Model on New Images
 
@@ -138,13 +138,20 @@ In addition to a satisfactory overall accuracy level, the probabilities associat
 
 Here are five German traffic signs that I found on the web:
 
-[image6]: ./my-signs/speed60kmh.png "Maximum Speed 60 km/h"
-[image7]: ./my-signs/stop.png "Stop"
-[image4]: ./my-signs/curveleft.png "Dangerous Left Curve"
-[image5]: ./my-signs/nopassing.png "No Passing"
-[image8]: ./my-signs/yield.png "Yield"
+[image6]: ./my-signs/speed60kmh.png "3: Speed limit 60 km/h"
+This sign contains a number, which should be the hardest feature to classify, given that there is no complete training of numbers in the data set.
 
-The third image (Dangerous Left Curve) might be especially difficult to classify because of its similarity to other triangular-shaped signs that include various shapes of arrows.
+[image7]: ./my-signs/stop.png "14: Stop"
+This sign has a unique hexagon shape and the word "Stop", which should make it more easily classifiable. However, I think the hexagon shape may be interpreted as a circle as well.
+
+[image4]: ./my-signs/curveleft.png "19: Dangerous curve to the left"
+This sign contains a left arrow shape, which is similar to several other signs with various configurations of arrows.
+
+[image5]: ./my-signs/nopassing.png "9: No passing"
+This sign has two rather small images of cars which could be confused with circles, such as in the "Traffic signals" sign.
+
+[image8]: ./my-signs/yield.png "13: Yield"
+This is a simple and clear triangle which I would imagin should be easy to classify, given that all the other signs have additional features within the overall shape.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -152,32 +159,64 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| Maximum Speed 60 km/h					| Maximum Speed 60 km/h											|
-| Stop	      		| Stop					 				|
-| Dangerous Left Curve      		| Dangerous Left Curve   									|
-| No Passing     			| No Passing 										|
-| Yield			| Yield      							|
+| Speed limit 60 km/h					| 3: Speed limit 60 km/h											|
+| Stop	      		| 14: Stop					 				|
+| Dangerous Left Curve      		| 26: Traffic Signals   									|
+| No Passing     			| 9: No Passing 										|
+| Yield			| 13: Yield      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. When retested in multiple runs with a freshly-built model in each trial, success rates of 80% to 100% are achieved.
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in cell 33 of the Ipython notebook.
+The code for making predictions on my final model is located in cell 21 of the Ipython notebook. The prediction probabilities are in cell 25.
 
-There are two images that have probabilities not near 100%.
+The softmax prediction probabilities are amazingly high for the correctly-classified signs. This is surprising given the lower test set accuracy percentage of 91.5%.
 
-The first challenging image is image 1, 60 km/h. I believe this image is a challenge due to the need to recognize the number in the sign, and this network has not undergone significant training on images of numbers.
+The sign for "Dangerous curve to the left" was incorrectly classified as "26: Traffic signals" and has a very low prediction probability of 64%, as would be expected for an incorrect result.
 
-The second challenging image is image 3, dangerous left turn. The arrow in the sign is probably similar to other signs having different configurations of arrows.
+For the 4 correctly-classified signs, the probabilities for the alternative predictions are effectively 0%, except for the incorrect classification "Speed limit 80 km/h", which had a probability of 0.13%.
 
-| Probability         	|     Prediction	        					|
-|:---------------------:|:---------------------------------------------:|
-| .05					| Maximum Speed 60 km/h											|
-| .04	      			| Stop					 				|
-| .60         			| Dangerous Left Curve   									|
-| .20     				| No Passing 										|
-| .01				    | Yield      							|
+Top prediction:
+3 0.99862933158874511719  Speed limit 60 km/h
+Other predictions:
+5 0.00136944768019020557  Speed limit 80 km/h
+8 0.00000092454422429000  Speed limit 120 km/h
+6 0.00000014282230154095  End of speed limit 80 km/h
+31 0.00000014064157483062 Wild animals crossing
+
+Top prediction:
+14 0.99992680549621582031 Stop
+Other predictions:
+33 0.00005381230948842131 Turn right ahead
+4 0.00001772510404407512  Speed limit 70 km/h
+17 0.00000151605274822941 No entry
+13 0.00000005938898439695 Yield
+
+Top prediction:
+26 0.64463102817535400391 Traffic Signals
+Other predictions:
+19 0.30292659997940063477 Dangerous curve to the left
+29 0.04357940331101417542 Bicycles crossing
+25 0.00477989437058568001 Road work
+4 0.00333137135021388531  Speed limit 70 km/h
+
+Top prediction:
+9 0.99929738044738769531  No passing
+Other predictions:
+38 0.00067734171170741320 Keep right
+20 0.00001098814482247690 Dangerous curve to the right
+41 0.00000463521928395494 End of no passing
+35 0.00000434934736404102 Ahead only
+
+Top prediction:
+13 1.00000000000000000000 Yield
+Other predictions:
+35 0.00000000000201751333 Ahead only
+12 0.00000000000000009540 Priority road
+9 0.00000000000000003876  No passing
+33 0.00000000000000002735 Turn right ahead
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
