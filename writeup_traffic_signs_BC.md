@@ -8,18 +8,6 @@ The goals / steps of this project are the following:
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image6]: ./my-signs/speed60kmh.png "Maximum Speed 60 km/h"
-[image7]: ./my-signs/stop.png "Stop"
-[image4]: ./my-signs/curveleft.png "Dangerous Left Curve"
-[image5]: ./my-signs/nopassing.png "No Passing"
-[image8]: ./my-signs/yield.png "Yield"
-
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
@@ -49,7 +37,7 @@ Here is an exploratory visualization of the data set. It is a set of histograms 
 
 In addition, a random set of images from the training set is displayed.
 
-![data-visualization](./data_visualization.png] "Data Visualization")
+![data-visualization](./data_visualization.png "Data Visualization")
 
 ### Design and Test a Model Architecture
 
